@@ -1,12 +1,16 @@
-name             "passenger_apache2"
-description      "Installs passenger for Apache2"
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-maintainer       "AWS OpsWorks"
-license          "Apache 2.0"
-version          "1.0.0"
+maintainer        "Opscode, Inc."
+maintainer_email  "cookbooks@opscode.com"
+license           "Apache 2.0"
+description       "Installs passenger for Apache2"
+long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
+version           "0.11"
 
-%w{ packages gem_support apache2 nginx unicorn rails opsworks_initial_setup }.each do |cb|
+%w{ packages apache2 rails }.each do |cb|
   depends cb
+end
+
+%w{ redhat centos amazon ubuntu debian }.each do |os|
+  supports os
 end
 
 attribute "passenger/version",

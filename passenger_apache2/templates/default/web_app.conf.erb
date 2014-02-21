@@ -1,6 +1,3 @@
-<%-
-  passenger_handler = File.exists?("#{@params[:deploy][:deploy_to]}/current/config.ru") ? "Rack" : "Rails"
--%>
 <VirtualHost *:80>
   ServerName <%= @params[:server_name] %>
   <% if @params[:server_aliases] && !@params[:server_aliases].empty? -%>
@@ -9,12 +6,12 @@
   
   <% if @params[:mounted_at] -%>
   DocumentRoot /var/www
-  <%= passenger_handler -%>BaseURI <%= @params[:mounted_at] %>
+  <%= @params[:deploy][:passenger_handler] -%>BaseURI <%= @params[:mounted_at] %>
   <% else -%>
   DocumentRoot <%= @params[:docroot] %>
-  <%= passenger_handler -%>BaseURI /
+  <%= @params[:deploy][:passenger_handler] -%>BaseURI /
   <% end -%>
-  <%= passenger_handler -%>Env <%= @params[:rails_env] %>
+  <%= @params[:deploy][:passenger_handler] -%>Env <%= @params[:rails_env] %>
 
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
@@ -41,9 +38,7 @@
   FileETag none
 
   RewriteEngine On
-  <% if @params[:rewrite_config] && @params[:rewrite_config] != '' %>
   Include <%= @params[:rewrite_config] %>*
-  <% end %>
   RewriteLog <%= node[:apache][:log_dir] %>/<%= @application_name %>-rewrite.log
   RewriteLogLevel 0
   
@@ -57,9 +52,7 @@
   RewriteCond %{SCRIPT_FILENAME} !maintenance.html
   RewriteRule ^.*$ /system/maintenance.html [L]
 
-  <% if @params[:local_config] && @params[:local_config] != '' %>
   Include <%= @params[:local_config] %>*
-  <% end %>
 </VirtualHost>
 
 <% if node[:deploy][@application_name][:ssl_support] -%>
@@ -80,12 +73,12 @@
   
   <% if @params[:mounted_at] -%>
   DocumentRoot /var/www
-  <%= passenger_handler -%>BaseURI <%= @params[:mounted_at] %>
+  <%= @params[:deploy][:passenger_handler] -%>BaseURI <%= @params[:mounted_at] %>
   <% else -%>
   DocumentRoot <%= @params[:docroot] %>
-  <%= passenger_handler -%>BaseURI /
+  <%= @params[:deploy][:passenger_handler] -%>BaseURI /
   <% end -%>
-  <%= passenger_handler -%>Env <%= @params[:rails_env] %>
+  <%= @params[:deploy][:passenger_handler] -%>Env <%= @params[:rails_env] %>
 
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
@@ -112,9 +105,7 @@
   FileETag none
 
   RewriteEngine On
-  <% if @params[:rewrite_config] && @params[:rewrite_config] != '' %>
   Include <%= @params[:rewrite_config] %>-ssl*
-  <% end %>
   RewriteLog <%= node[:apache][:log_dir] %>/<%= @application_name %>-ssl-rewrite.log
   RewriteLogLevel 0
   
@@ -128,8 +119,6 @@
   RewriteCond %{SCRIPT_FILENAME} !maintenance.html
   RewriteRule ^.*$ /system/maintenance.html [L]
 
-  <% if @params[:local_config] && @params[:local_config] != '' %>
   Include <%= @params[:local_config] %>-ssl*
-  <% end %>
 </VirtualHost>
 <% end -%>

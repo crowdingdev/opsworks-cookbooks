@@ -39,16 +39,8 @@ default[:opsworks_initial_setup][:limits][:msgqueue] = nil
 default[:opsworks_initial_setup][:limits][:nice] = nil
 default[:opsworks_initial_setup][:limits][:rtprio] = nil
 
-<<<<<<< HEAD
 default[:opsworks_initial_setup][:yum_dump_lock_timeout] = 120
 
-=======
-default[:opsworks_initial_setup][:yum_dump_file] = File.join(Chef::CHEF_ROOT, "chef", "provider", "package", "yum-dump.py")
-default[:opsworks_initial_setup][:yum_dump_lock_timeout] = 120
-
-default[:opsworks_initial_setup][:autofs_map_file] = "/etc/auto.opsworks"
-
->>>>>>> master-chef-11.4
 case node[:platform]
 when 'redhat','centos','fedora','amazon'
   default[:opsworks_initial_setup][:ephemeral_mount_point] = "/media/ephemeral0"

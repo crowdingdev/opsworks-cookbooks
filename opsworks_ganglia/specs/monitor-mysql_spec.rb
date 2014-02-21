@@ -4,11 +4,11 @@ describe_recipe 'opsworks_ganglia::monitor-mysql' do
   include MiniTest::Chef::Resources
   include MiniTest::Chef::Assertions
 
-  it 'installs dependencies' do
-    case node["platform_family"]
-    when "rhel"
+  it 'installs deps' do
+    case node[:platform]
+    when "centos","redhat","fedora","scientific","amazon","oracle"
       package("MySQL-python").must_be_installed
-    when "debian"
+    when "debian","ubuntu"
       package("python-mysqldb").must_be_installed
     end
   end
@@ -18,10 +18,10 @@ describe_recipe 'opsworks_ganglia::monitor-mysql' do
   end
 
   it 'creates mysql.py module' do
-    file('/etc/ganglia/python_modules/mysql.py').must_exist.with(:mode, '644')
+    file('/etc/ganglia/python_modules/mysql.py').must_exist.with(:mode, '755')
   end
 
   it 'creates DBUtil.py module' do
-    file('/etc/ganglia/python_modules/DBUtil.py').must_exist.with(:mode, '644')
+    file('/etc/ganglia/python_modules/DBUtil.py').must_exist.with(:mode, '755')
   end
 end

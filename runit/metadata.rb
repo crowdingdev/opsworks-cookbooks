@@ -1,10 +1,14 @@
-name        "runit"
-description "Installs runit and provides runit_service definition"
-maintainer  "AWS OpsWorks"
-license     "Apache 2.0"
-version     "1.0.0"
+maintainer        "Opscode, Inc."
+maintainer_email  "cookbooks@opscode.com"
+license           "Apache 2.0"
+description       "Installs runit and provides runit_service definition"
+version           "0.14.2"
 
 recipe "runit", "Installs and configures runit"
+
+%w{ ubuntu debian gentoo }.each do |os|
+  supports os
+end
 
 attribute "runit",
   :display_name => "Runit",

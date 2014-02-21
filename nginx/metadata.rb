@@ -1,8 +1,12 @@
-name        "nginx"
-description "Installs and configures nginx"
-maintainer  "AWS OpsWorks"
-license     "Apache 2.0"
-version     "1.0.0"
+maintainer        "Opscode, Inc."
+maintainer_email  "cookbooks@opscode.com"
+license           "Apache 2.0"
+description       "Installs and configures nginx"
+version           "0.8"
+
+%w{ ubuntu debian }.each do |os|
+  supports os
+end
 
 attribute "nginx/dir",
   :display_name => "Nginx Directory",

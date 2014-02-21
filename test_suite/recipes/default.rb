@@ -5,10 +5,7 @@
 if node[:opsworks][:run_cookbook_tests]
   Chef::Log.info('Initializing Cookbook Test Environment.')
 
-  chef_gem 'minitest-chef-handler' do
-    version node[:test_suite][:minitest_chef_handler][:version]
-  end
-
+  OpsWorks::InternalGems.internal_gem_package 'minitest-chef-handler', :version => node[:opsworks_test_suite_loader][:minitest_chef_handler][:version]
   require 'minitest-chef-handler'
 
   Chef::Log.info('Enabling minitest-chef-handler as a report handler')
@@ -20,7 +17,4 @@ if node[:opsworks][:run_cookbook_tests]
   end
 
   Chef::Config.send('report_handlers') << handler
-
-  # trigger internal tests, that don't have specs but recipes
-  include_recipe 'test_suite::internal_tests'
 end

@@ -1,14 +1,6 @@
 local_nodejs_up_to_date = ::File.exists?("/usr/local/bin/node") &&
                           system("/usr/local/bin/node -v | grep '#{node[:opsworks_nodejs][:version]}' > /dev/null 2>&1") &&
-<<<<<<< HEAD
                           system("rpm -qa | grep 'opsworks-nodejs' > /dev/null 2>&1")
-=======
-                          if ['debian','ubuntu'].include?(node[:platform])
-                            system("dpkg --get-selections | grep -v deinstall | grep 'opsworks-nodejs' > /dev/null 2>&1")
-                          else
-                            system("rpm -qa | grep 'opsworks-nodejs' > /dev/null 2>&1")
-                          end
->>>>>>> master-chef-11.4
 
 case node[:platform]
 when 'debian', 'ubuntu'
@@ -58,13 +50,12 @@ when 'centos','redhat','fedora','amazon'
 
   rpm_package "Install node.js #{node[:opsworks_nodejs][:version]}" do
     source "/tmp/#{node[:opsworks_nodejs][:rpm]}"
-    action :install
-    options "--verbose --oldpackage"
+    action :upgrade
+    options "--oldpackage"
     only_if do
      ::File.exists?("/tmp/#{node[:opsworks_nodejs][:rpm]}")
     end
   end
-
 end
 
 execute "Clean up nodejs files" do
