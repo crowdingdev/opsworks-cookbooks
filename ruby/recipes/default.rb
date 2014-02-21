@@ -4,7 +4,15 @@
 
 local_ruby_up_to_date = ::File.exists?(node[:ruby][:executable]) &&
                         system("#{node[:ruby][:executable]} -v | grep '#{node['ruby']['version']}' > /dev/null 2>&1") &&
+<<<<<<< HEAD
                         system("rpm -qa | grep 'opsworks-ruby' > /dev/null 2>&1")
+=======
+                        if ['debian','ubuntu'].include?(node[:platform])
+                          system("dpkg --get-selections | grep -v deinstall | grep 'opsworks-ruby' > /dev/null 2>&1")
+                        else
+                          system("rpm -qa | grep 'opsworks-ruby' > /dev/null 2>&1")
+                        end
+>>>>>>> master-chef-11.4
 
 if local_ruby_up_to_date
   Chef::Log.info("Userspace Ruby version is #{node['ruby']['version']} - up-to-date")
@@ -25,7 +33,11 @@ when 'debian','ubuntu'
     end
   end
 
+<<<<<<< HEAD
   ['opsworks-ruby1.9','opsworks-ruby2.0','ruby-enterprise','ruby1.9','ruby2.0'].each do |pkg|
+=======
+  ['opsworks-ruby1.9','opsworks-ruby2.0','opsworks-ruby2.1','ruby-enterprise','ruby1.9','ruby2.0'].each do |pkg|
+>>>>>>> master-chef-11.4
     package pkg do
       action :remove
       ignore_failure true
@@ -46,7 +58,11 @@ when 'centos','redhat','fedora','amazon'
     end
   end
 
+<<<<<<< HEAD
   ['opsworks-ruby1.9','opsworks-ruby2.0','ruby-enterprise','ruby19','ruby20'].each do |pkg|
+=======
+  ['opsworks-ruby19','opsworks-ruby20','opsworks-ruby21','ruby-enterprise','ruby19','ruby20'].each do |pkg|
+>>>>>>> master-chef-11.4
     package pkg do
       action :remove
       ignore_failure true

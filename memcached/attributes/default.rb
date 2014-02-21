@@ -14,3 +14,4 @@ end
 
 default[:memcached][:start_command] = "/etc/init.d/memcached start"
 default[:memcached][:stop_command] = "/etc/init.d/memcached stop"
+default[:memcached][:testing][:gem_version] = '1.6.1'
