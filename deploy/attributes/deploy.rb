@@ -43,7 +43,7 @@ node[:deploy].each do |application, deploy|
   else
     default[:deploy][application][:migrate_command] = "#{node[:deploy][application][:rake]} db:migrate"
   end
-  default[:deploy][application][:rails_env] = 'production'
+  default[:deploy][application][:rails_env] = 'development' #production
   default[:deploy][application][:action] = 'deploy'
   default[:deploy][application][:user] = node[:opsworks][:deploy_user][:user]
   default[:deploy][application][:group] = node[:opsworks][:deploy_user][:group]
