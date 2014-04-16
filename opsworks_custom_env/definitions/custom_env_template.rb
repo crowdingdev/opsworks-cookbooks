@@ -15,9 +15,9 @@ define :custom_env_template do
     variables :env => params[:env]
     notifies :run, resources(:execute => "restart Rails app #{params[:application]} for custom env")
 
-    only_if do
-      File.exists?("#{params[:deploy][:deploy_to]}/shared/config")
-    end
+    #only_if do
+     # File.exists?("#{params[:deploy][:deploy_to]}/shared/config")
+    #end
   end
   
 end
